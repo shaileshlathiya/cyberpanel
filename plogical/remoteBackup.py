@@ -29,7 +29,6 @@ class remoteBackup:
             logging.CyberCPLogFileWriter.writeToFile(str(msg) + " [getKey]")
             return [0,"Not able to fetch key from remote server, Error Message:" + str(msg)]
 
-
     @staticmethod
     def startRestore(backupDir,backupLogPath,dir):
         try:
@@ -212,7 +211,7 @@ class remoteBackup:
             writeToFile.writelines("\n")
 
         except BaseException,msg:
-            logging.CyberCPLogFileWriter.writeToFile(str(msg) + " [startBackup]")
+            logging.CyberCPLogFileWriter.writeToFile(str(msg) + " [214:startBackup]")
 
 
     @staticmethod
@@ -222,6 +221,7 @@ class remoteBackup:
 
             command = 'sudo rsync -avz -e "ssh  -i /root/.ssh/cyberpanel -o StrictHostKeyChecking=no" ' + completedPathToSend + ' root@' + IPAddress + ':/home/backup/transfer-'+folderNumber
             subprocess.call(shlex.split(command), stdout=writeToFile)
+            os.remove(completedPathToSend)
 
         except BaseException, msg:
             logging.CyberCPLogFileWriter.writeToFile(str(msg) + " [startBackup]")
@@ -361,4 +361,3 @@ class remoteBackup:
         except BaseException, msg:
             logging.CyberCPLogFileWriter.writeToFile(str(msg) + " [remoteTransfer]")
             return [0, msg]
-
